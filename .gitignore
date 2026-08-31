@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+.wrangler/
+
+# Local backup of the pre-split single-file page
+index.original.html
