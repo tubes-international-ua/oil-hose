@@ -5,6 +5,7 @@
   Cache-Control: public, max-age=3600, must-revalidate
 
 /*
+  X-Robots-Tag: noindex, follow, noarchive, nosnippet, noimageindex
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
