@@ -8,6 +8,8 @@
  *   MAIL_FROM       — verified sender, e.g. "Лендінг <lead@your-domain.com.ua>"
  * Optional:
  *   MAIL_BCC        — extra address that receives a copy of every lead
+ *   MAIL_TO         — send every lead here instead of the routed branch. Meant for
+ *                     testing the delivery chain; unset it to restore branch routing.
  */
 
 const BRANCHES = {
@@ -64,7 +66,12 @@ function buildHtml(d, branch, matched, meta) {
     `<td style="padding:6px 0;color:#111"><b>${v}</b></td></tr>`;
 
   return `<!DOCTYPE html><html lang="uk"><body style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111">
-<h2 style="margin:0 0 4px">Заявка з лендінгу композитних рукавів</h2>
+<h2 style="margin:0 0 4px">Заявка з лендінгу композитних рукавів</h2>${
+    meta.routedTo
+      ? `<p style="margin:0 0 10px;padding:8px 12px;background:#fff4d6;border:1px solid #e8c65a;color:#7a5b00">
+<b>Тестовий режим.</b> Заявка перенаправлена сюди через змінну <code>MAIL_TO</code>.
+За звичайних умов пішла б на <b>${esc(BRANCHES[branch].email)}</b>.</p>`
+      : ''}
 <p style="margin:0 0 18px;color:#667">Філія: <b>${esc(BRANCHES[branch].label)}</b>${
     matched ? '' : ' <span style="color:#c00">(місто не розпізнано — перевірте, чи ваша це заявка)</span>'}</p>
 <table style="border-collapse:collapse">
@@ -110,15 +117,17 @@ async function handleLead(request, env) {
   }
 
   const { branch, matched } = routeCity(d.city);
+  const override = String(env.MAIL_TO || '').trim();
   const meta = {
     time: new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }),
     ip: request.headers.get('CF-Connecting-IP') || '—',
     country: request.cf?.country || '—',
+    routedTo: override ? branch : null,
   };
 
   const payload = {
     from: env.MAIL_FROM,
-    to: [BRANCHES[branch].email],
+    to: [override || BRANCHES[branch].email],
     reply_to: String(d.email).trim(),
     subject: `Заявка: композитні рукави — ${String(d.city).trim()} (${String(d.name).trim()})`,
     html: buildHtml(d, branch, matched, meta),
@@ -139,7 +148,7 @@ async function handleLead(request, env) {
     return json({ ok: false, error: 'send_failed' }, 502);
   }
 
-  return json({ ok: true, branch });
+  return json({ ok: true, branch, ...(override ? { test_mode: true } : {}) });
 }
 
 export default {
