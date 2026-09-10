@@ -1,8 +1,9 @@
 /**
- * Cloudflare Pages Function — lead form handler.
- * POST /api/lead
+ * Cloudflare Worker — static assets + lead form handler.
+ * Static files live in public/ and are served from the ASSETS binding;
+ * only POST /api/lead is handled by this script.
  *
- * Required environment variables (Pages → Settings → Environment variables):
+ * Required environment variables (Worker → Settings → Variables and Secrets):
  *   RESEND_API_KEY  — API key from resend.com
  *   MAIL_FROM       — verified sender, e.g. "Лендінг <lead@your-domain.com.ua>"
  * Optional:
@@ -83,7 +84,7 @@ ${row('IP / країна', `${esc(meta.ip)} / ${esc(meta.country)}`)}
 </body></html>`;
 }
 
-export async function onRequestPost({ request, env }) {
+async function handleLead(request, env) {
   const json = (body, status = 200) =>
     new Response(JSON.stringify(body), {
       status,
@@ -140,3 +141,19 @@ export async function onRequestPost({ request, env }) {
 
   return json({ ok: true, branch });
 }
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/api/lead') {
+      if (request.method !== 'POST') {
+        return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } });
+      }
+      return handleLead(request, env);
+    }
+
+    // Everything else is a static file (index.html, /assets/*, /images/*, robots.txt).
+    return env.ASSETS.fetch(request);
+  },
+};

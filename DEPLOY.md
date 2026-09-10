@@ -1,6 +1,6 @@
 # Публікація лендінгу
 
-Стек: **Cloudflare Pages** (хостинг, безкоштовно) + **Resend** (пошта, безкоштовно до 3000 листів/міс).
+Стек: **Cloudflare Workers** (хостинг + обробник форми, безкоштовно) + **Resend** (пошта, безкоштовно до 3000 листів/міс).
 Разом виходить 0 грн/міс, SSL і CDN включені.
 
 ---
@@ -21,24 +21,47 @@
 
 ---
 
-## 2. Хостинг: Cloudflare Pages
+## 2. Хостинг: Cloudflare Workers
+
+Проєкт — це **Worker зі статичними ассетами**: `public/` віддається як статика,
+а `src/index.js` обробляє єдиний динамічний маршрут `POST /api/lead`.
+Конфігурація — у `wrangler.jsonc`.
+
+> **Важливо.** Не заливайте папку через «Upload assets» без `wrangler.jsonc`.
+> Тоді Cloudflare створить Worker, у якому є **лише статика**, і в Settings
+> з'явиться напис *«Variables cannot be added to a Worker that only has static assets»* —
+> ключі для пошти додати буде нікуди, і форма не працюватиме.
 
 ### 2.1. Залити файли
 
 1. Зареєструйтеся на [dash.cloudflare.com](https://dash.cloudflare.com).
-2. **Workers & Pages → Create → Pages → Upload assets**. Назвіть проєкт, наприклад `rukavy`.
-3. Перетягніть вміст цієї папки — `index.html`, `images/`, `functions/`, `_headers`, `robots.txt`.
-   Git не потрібен, завантаження працює перетягуванням.
-4. Сайт одразу відкриється на технічній адресі виду `rukavy.pages.dev`. Перевірте, що все на місці.
+2. Задеплойте з командного рядка з кореня цієї папки:
 
-Оновлення в майбутньому — просто перезалити папку тим самим способом.
+   ```bash
+   npx wrangler deploy
+   ```
+
+   Перший запуск попросить залогінитись у браузері. Назва проєкту береться
+   з поля `name` у `wrangler.jsonc` — змініть, якщо треба інша.
+3. Сайт відкриється на технічній адресі виду `oil-hose.<ваш-субдомен>.workers.dev`.
+   Перевірте, що все на місці.
+
+Оновлення в майбутньому — та сама команда `npx wrangler deploy`.
+
+### 2.1.1. Локальний запуск
+
+```bash
+npx wrangler dev
+```
+
+Підніме сайт на `http://localhost:8788` разом з обробником форми.
 
 ---
 
 ## 2.2. Підключити власний домен
 
 Порядок кроків важливий: спочатку домен має стати зоною Cloudflare, і лише потім
-прив'язуємо його до проєкту Pages.
+прив'язуємо його до Worker'а.
 
 ### Крок 1. Додати домен як зону Cloudflare
 
@@ -88,7 +111,7 @@ DNS-записи, які були в реєстратора, переносит�
 
 ### Крок 3. Прив'язати домен до проєкту Pages
 
-1. **Workers & Pages → ваш проєкт → Custom domains → Set up a domain**.
+1. **Workers & Pages → ваш проєкт → Domains → Add → Custom domain**.
 2. Введіть домен без `www` → **Continue** → **Activate domain**.
 3. Cloudflare **сам створить потрібний DNS-запис**. Нічого додавати вручну не треба.
 4. Повторіть те саме для `www.ваш-домен.com.ua` — щоб обидві версії відкривались.
@@ -146,7 +169,7 @@ DNS-записи, які були в реєстратора, переносит�
 
 ## 3. Пошта: Resend
 
-Обробник форми (`functions/api/lead.js`) шле заявки через Resend.
+Обробник форми (`src/index.js`) шле заявки через Resend.
 
 1. Зареєструйтеся на [resend.com](https://resend.com), **Domains → Add Domain** → ваш домен.
 2. Resend покаже DNS-записи (SPF, DKIM, DMARC). Додайте їх у Cloudflare: **DNS → Records**.
@@ -157,15 +180,25 @@ DNS-записи, які були в реєстратора, переносит�
    Якщо Resend дає CNAME, переконайтеся, що хмарка сіра (**DNS only**), а не помаранчева,
    інакше верифікація не пройде.
 3. **API Keys → Create API Key**, скопіюйте ключ.
-4. У Cloudflare Pages: **Settings → Environment variables → Production**, додайте:
+4. Додайте змінні. `RESEND_API_KEY` — це секрет, тому краще через CLI:
+
+   ```bash
+   npx wrangler secret put RESEND_API_KEY
+   ```
+
+   Решту — у дашборді: **Workers & Pages → ваш проєкт → Settings → Variables and Secrets**:
 
    | Змінна | Значення |
    |---|---|
-   | `RESEND_API_KEY` | ключ із Resend |
+   | `RESEND_API_KEY` | ключ із Resend (секрет) |
    | `MAIL_FROM` | `Лендінг <lead@ваш-домен.com.ua>` |
    | `MAIL_BCC` | *(необов'язково)* адреса для копії всіх заявок |
 
-5. Після додавання змінних зробіть **Retry deployment**, інакше функція їх не побачить.
+   Якщо замість полів бачите *«Variables cannot be added to a Worker that only has static assets»* —
+   деплой пішов без `wrangler.jsonc` і в ньому нема скрипта. Передеплойте через `npx wrangler deploy`.
+
+5. Після додавання змінних у дашборді зробіть **Deploy** ще раз, інакше Worker їх не побачить.
+   Змінні, додані через `wrangler secret put`, застосовуються одразу.
 
 ### Куди йдуть заявки
 
@@ -178,13 +211,13 @@ DNS-записи, які були в реєстратора, переносит�
 | Дніпропетровська, Запорізька, Харківська, Одеська, Миколаївська, Херсонська, Кіровоградська | `dnipro@tubes-international.com` |
 | Місто не розпізнано | Львів + позначка в листі |
 
-Списки міст — на початку `functions/api/lead.js`, легко доповнити.
+Списки міст — на початку `src/index.js`, легко доповнити.
 
 ---
 
 ## 4. Аналітика і конверсії
 
-1. У `index.html` замініть `GTM-XXXXXXX` на свій ID контейнера — **у двох місцях**
+1. У `public/index.html` замініть `GTM-XXXXXXX` на свій ID контейнера — **у двох місцях**
    (у `<script>` в `<head>` і в `<noscript>` на початку `<body>`).
 2. У Google Tag Manager створіть тригери на події `dataLayer`:
 
@@ -227,7 +260,7 @@ DNS-записи, які були в реєстратора, переносит�
 шлангів на основному сайті. `robots.txt` при цьому **дозволяє** сканування: інакше Google
 не побачить сам `noindex`, а краулер Google Ads не зможе перевірити посадкову.
 
-Якщо згодом захочете органічний трафік — змініть у `index.html` рядок
+Якщо згодом захочете органічний трафік — змініть у `public/index.html` рядок
 `<meta name="robots" content="noindex, follow">` на `index, follow`.
 
 ---
@@ -235,11 +268,16 @@ DNS-записи, які були в реєстратора, переносит�
 ## Структура файлів
 
 ```
-index.html                      сторінка (все CSS/JS всередині)
-images/
-  composite-hose-cutaway.webp   схема рукава (використовується)
-  composite-hose-cutaway.png    те саме, запасний формат
-functions/api/lead.js           обробник форми
-_headers                        кешування і security-заголовки
-robots.txt
+wrangler.jsonc                  конфіг Worker'а: точка входу + папка зі статикою
+src/index.js                    Worker: роутинг + обробник форми /api/lead
+public/                         усе, що віддається як статика
+  index.html                    сторінка
+  assets/css/styles.css
+  assets/js/main.js             валідація форми і відправка на /api/lead
+  assets/js/gtm.js
+  images/
+    composite-hose-cutaway.webp схема рукава (використовується)
+    composite-hose-cutaway.png  те саме, запасний формат
+  _headers                      кешування і security-заголовки
+  robots.txt
 ```
