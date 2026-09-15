@@ -31,6 +31,15 @@ const REGIONS = {
            'кропивниц', 'kropyvnyts', 'маріупол', 'нікополь', 'павлоград', 'кам\'янське', 'мелітопол'],
 };
 
+// Each landing form declares a form_name. It only selects a label from this map —
+// visitor input never reaches the subject line directly.
+const FORM_TOPICS = {
+  composite_hoses_landing: 'композитні рукави',
+  tanker_equipment: 'комплектуючі для автоцистерн',
+};
+
+const DEFAULT_TOPIC = FORM_TOPICS.composite_hoses_landing;
+
 const DEFAULT_BRANCH = 'lviv';
 
 /** Pick the branch whose region list matches the city the visitor typed. */
@@ -66,7 +75,7 @@ function buildHtml(d, branch, matched, meta) {
     `<td style="padding:6px 0;color:#111"><b>${v}</b></td></tr>`;
 
   return `<!DOCTYPE html><html lang="uk"><body style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111">
-<h2 style="margin:0 0 4px">Заявка з лендінгу композитних рукавів</h2>${
+<h2 style="margin:0 0 4px">Заявка з лендінгу — ${esc(meta.topic)}</h2>${
     meta.routedTo
       ? `<p style="margin:0 0 10px;padding:8px 12px;background:#fff4d6;border:1px solid #e8c65a;color:#7a5b00">
 <b>Тестовий режим.</b> Заявка перенаправлена сюди через змінну <code>MAIL_TO</code>.
@@ -119,6 +128,7 @@ async function handleLead(request, env) {
   const { branch, matched } = routeCity(d.city);
   const override = String(env.MAIL_TO || '').trim();
   const meta = {
+    topic: Object.hasOwn(FORM_TOPICS, d.form_name) ? FORM_TOPICS[d.form_name] : DEFAULT_TOPIC,
     time: new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv' }),
     ip: request.headers.get('CF-Connecting-IP') || '—',
     country: request.cf?.country || '—',
@@ -129,7 +139,7 @@ async function handleLead(request, env) {
     from: env.MAIL_FROM,
     to: [override || BRANCHES[branch].email],
     reply_to: String(d.email).trim(),
-    subject: `Заявка: композитні рукави — ${String(d.city).trim()} (${String(d.name).trim()})`,
+    subject: `Заявка: ${meta.topic} — ${String(d.city).trim()} (${String(d.name).trim()})`,
     html: buildHtml(d, branch, matched, meta),
   };
   if (env.MAIL_BCC) payload.bcc = [env.MAIL_BCC];

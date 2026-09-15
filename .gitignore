@@ -6,3 +6,6 @@ node_modules/
 
 # Local backup of the pre-split single-file page
 index.original.html
+
+# Source catalogue exports (raw OCR from supplier PDFs)
+*_min*.md

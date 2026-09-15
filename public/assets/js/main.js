@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  // Cloudflare Pages Function — see functions/api/lead.js
+  // Lead handler lives in the Worker — see src/index.js
   var ENDPOINT = '/api/lead';
 
   var d = document;
@@ -11,6 +11,9 @@
   var submitBtn = d.getElementById('submit-btn');
   var phone = d.getElementById('f-phone');
   var consent = d.getElementById('f-consent');
+
+  // Every page carrying the form declares its own name so leads stay attributable
+  var formName = form.getAttribute('data-form-name') || 'composite_hoses_landing';
 
   d.getElementById('year').textContent = new Date().getFullYear();
 
@@ -125,6 +128,7 @@
       email: d.getElementById('f-email').value.trim(),
       message: d.getElementById('f-msg').value.trim(),
       consent: true,
+      form_name: formName,
       page_url: window.location.href,
       // ad attribution carried over from the landing URL
       utm: (function(){
@@ -140,7 +144,7 @@
     submitBtn.textContent = 'Надсилаємо...';
 
     function done(){
-      dl({event:'generate_lead', form_name:'composite_hoses_landing', lead_city:data.city, value:1, currency:'UAH'});
+      dl({event:'generate_lead', form_name:formName, lead_city:data.city, value:1, currency:'UAH'});
       formWrap.style.display = 'none';
       success.classList.add('is-visible');
       if(success.scrollIntoView) success.scrollIntoView({behavior:'smooth', block:'center'});

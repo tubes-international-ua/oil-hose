@@ -223,13 +223,15 @@ DNS-записи, які були в реєстратора, переносит�
 
 ## 4. Аналітика і конверсії
 
-1. У `public/index.html` замініть `GTM-XXXXXXX` на свій ID контейнера — **у двох місцях**
-   (у `<script>` в `<head>` і в `<noscript>` на початку `<body>`).
+1. У `public/index.html` і `public/avtocysterny.html` замініть `GTM-XXXXXXX` на свій ID
+   контейнера — **у двох місцях на кожній сторінці** (у `<script>` в `<head>`
+   і в `<noscript>` на початку `<body>`).
 2. У Google Tag Manager створіть тригери на події `dataLayer`:
 
    | Подія | Що означає | Конверсія в Google Ads |
    |---|---|---|
    | `generate_lead` | форму успішно надіслано | основна, цінність 1 |
+   | | параметр `form_name`: `composite_hoses_landing` або `tanker_equipment` | |
    | `phone_click` | клік по номеру телефону | другорядна |
    | `form_error` | помилка валідації | не конверсія, для діагностики |
 
@@ -266,8 +268,9 @@ DNS-записи, які були в реєстратора, переносит�
 шлангів на основному сайті. `robots.txt` при цьому **дозволяє** сканування: інакше Google
 не побачить сам `noindex`, а краулер Google Ads не зможе перевірити посадкову.
 
-Якщо згодом захочете органічний трафік — змініть у `public/index.html` рядок
-`<meta name="robots" content="noindex, follow">` на `index, follow`.
+Якщо згодом захочете органічний трафік — змініть рядок
+`<meta name="robots" content="noindex, follow">` на `index, follow` у потрібних сторінках
+(`index.html`, `avtocysterny.html`) і заголовок `X-Robots-Tag` у `public/_headers`.
 
 ---
 
@@ -277,7 +280,9 @@ DNS-записи, які були в реєстратора, переносит�
 wrangler.jsonc                  конфіг Worker'а: точка входу + папка зі статикою
 src/index.js                    Worker: роутинг + обробник форми /api/lead
 public/                         усе, що віддається як статика
-  index.html                    сторінка
+  index.html                    лендінг композитних рукавів
+  avtocysterny.html             /avtocysterny — комплектуючі та рукави для автоцистерн
+  umovy.html                    /umovy — умови використання та конфіденційність
   assets/css/styles.css
   assets/js/main.js             валідація форми і відправка на /api/lead
   assets/js/gtm.js
