@@ -859,6 +859,9 @@ ul {
   width: 150px;
   height: 150px;
 }
+.tcard__art .f {
+  fill: rgba(219, 226, 232, 0.07);
+}
 .tcard__b {
   padding: 24px;
   display: flex;
