@@ -1662,26 +1662,6 @@ ul {
   margin: 0 0 14px;
 }
 
-/* product index chips inside a type card */
-.codes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 18px;
-}
-.codes span {
-  padding: 5px 8px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--bg-soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
 /* DANOIL hose assembly parts list */
 .kit {
   margin-top: 28px;
@@ -1712,10 +1692,6 @@ ul {
 }
 .kit__l li {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px 16px;
   padding: 14px 18px;
   background: var(--black-3);
 }
@@ -1723,13 +1699,6 @@ ul {
   font-size: 15px;
   font-weight: 600;
   color: #dfe6ed;
-}
-.kit__l span {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--red);
-  white-space: nowrap;
 }
 .kit__note {
   margin: 18px 0 0;
