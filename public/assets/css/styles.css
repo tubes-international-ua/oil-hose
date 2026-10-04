@@ -1708,6 +1708,9 @@ ul {
 .rlink {
   margin-top: 28px;
 }
+.rlink--center {
+  text-align: center;
+}
 
 /* technical tables */
 .tbl__h {
