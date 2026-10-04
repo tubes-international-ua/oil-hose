@@ -12,6 +12,14 @@
     "run_worker_first": ["/api/*"]
   },
 
+  // Plain-text config lives here: every deploy replaces the Worker's vars with this
+  // block, so values set only in the dashboard are wiped on the next push.
+  // RESEND_API_KEY stays a dashboard secret (secrets survive deploys).
+  "vars": {
+    // Must be on a domain verified in Resend (tubes-international.online).
+    "MAIL_FROM": "Заявки з сайту <lead@tubes-international.online>"
+  },
+
   "observability": {
     "enabled": true
   }
