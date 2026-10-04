@@ -1,5 +1,4 @@
-# Crawling is allowed on purpose: the page carries a noindex meta tag, and Google
-# must be able to read it. Blocking here would hide the noindex — and would also
-# stop the Google Ads crawler from reviewing the landing page.
 User-agent: *
 Allow: /
+
+Sitemap: https://oil-hose.tubes-international.online/sitemap.xml
