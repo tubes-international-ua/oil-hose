@@ -256,6 +256,7 @@ ul {
 .topbar a {
   color: #fff;
   font-weight: 600;
+  white-space: nowrap;
 }
 .topbar a:hover {
   color: var(--red);
@@ -1338,6 +1339,24 @@ ul {
 .footer a:hover {
   color: var(--red);
 }
+.footer__corp {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line-dark);
+  font-size: 13.5px;
+}
+.footer__corp p {
+  margin: 0;
+}
+.footer__corp nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
 .footer__logo {
   height: 56px;
   width: auto;
@@ -1450,6 +1469,9 @@ ul {
   }
 }
 @media (max-width: 700px) {
+  .topbar__tag {
+    display: none;
+  }
   /* callout text gets too small to read — swap it for a colour legend */
   .fig-callouts {
     display: none;
@@ -1710,6 +1732,35 @@ ul {
 }
 .rlink--center {
   text-align: center;
+}
+
+/* links to the main corporate site */
+.mainlinks {
+  margin-top: 36px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+  font-size: 15px;
+}
+.mainlinks__t {
+  width: 100%;
+  font-weight: 700;
+  color: var(--ink);
+}
+.mainlinks a {
+  color: var(--red);
+  font-weight: 600;
+}
+.mainlinks a::after {
+  content: " ↗";
+}
+.mainlinks a:hover {
+  text-decoration: underline;
 }
 
 /* technical tables */
