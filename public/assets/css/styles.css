@@ -472,6 +472,7 @@ ul {
   border-bottom: 1px solid var(--line);
 }
 .mobnav .btn {
+  display: flex;
   margin-top: 16px;
 }
 
@@ -586,7 +587,7 @@ ul {
   height: auto;
   overflow: visible;
 }
-/* cutaway diagram callouts (hidden on small screens, replaced by a text legend) */
+/* cutaway diagram callouts; phones get a separate, larger-type layout */
 .fig-callouts text {
   font-family: "Inter", Arial, sans-serif;
   font-size: 14.5px;
@@ -611,40 +612,11 @@ ul {
   stroke: #e30613;
   stroke-width: 2.5;
 }
-.fig-legend {
+.fig-callouts--narrow {
   display: none;
-  flex-wrap: wrap;
-  gap: 9px 16px;
-  margin-top: 20px;
 }
-.fig-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #9aa7b4;
-}
-.fig-legend i {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  flex: 0 0 auto;
-}
-.sw-wire {
-  background: #c3ccd5;
-}
-.sw-tex {
-  background: #e4dcc6;
-}
-.sw-film {
-  background: #f2f7fb;
-}
-.sw-film2 {
-  background: #e30613;
-}
-.sw-line {
-  background: #4f86c6;
+.fig-callouts--narrow text {
+  font-size: 25px;
 }
 
 /* ============ TRUST STRIP ============ */
@@ -1469,18 +1441,15 @@ ul {
   }
 }
 @media (max-width: 700px) {
-  .topbar__tag {
+  .topbar {
     display: none;
   }
-  /* callout text gets too small to read — swap it for a colour legend */
-  .fig-callouts {
+  /* desktop callout text gets too small to read — switch to the phone layout */
+  .fig-callouts--wide {
     display: none;
   }
-  .fig-legend {
-    display: flex;
-  }
-  .hose-fig {
-    margin: -7% 0;
+  .fig-callouts--narrow {
+    display: inline;
   }
 }
 @media (max-width: 640px) {

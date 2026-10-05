@@ -211,7 +211,7 @@ height="0" width="0"></iframe></noscript>
         <path class="tank-hose" d="M347 356c0 46-52 56-96 64-40 7-62 22-62 38" fill="none" stroke="#e30613" stroke-width="3" stroke-linecap="round" opacity=".45"/>
         <path d="M120 458h150" stroke="#c9d2da" stroke-width="3" stroke-linecap="round"/>
 
-        <g class="fig-callouts">
+        <g class="fig-callouts fig-callouts--wide">
           <path class="cl-line" d="M183 136 150 56"/>
           <circle class="cl-dot" cx="183" cy="136" r="3.5"/>
           <text x="100" y="44">Люки та дихальні клапани</text>
@@ -228,13 +228,27 @@ height="0" width="0"></iframe></noscript>
           <circle class="cl-dot-red" cx="215" cy="425" r="4"/>
           <text class="cl-red" x="144" y="430" text-anchor="end">Композитний рукав</text>
         </g>
+
+        <!-- same callouts re-laid out for phones: bigger type, kept inside the viewBox -->
+        <g class="fig-callouts fig-callouts--narrow">
+          <path class="cl-line" d="M183 136 120 50"/>
+          <circle class="cl-dot" cx="183" cy="136" r="3.5"/>
+          <text x="16" y="36">Люки та дихальні клапани</text>
+
+          <path class="cl-line" d="M549 122 590 92"/>
+          <circle class="cl-dot" cx="549" cy="122" r="3.5"/>
+          <text x="704" y="80" text-anchor="end">Клапан рекуперації випарів</text>
+
+          <path class="cl-line" d="M441 356 498 414"/>
+          <circle class="cl-dot-red" cx="441" cy="356" r="4"/>
+          <text class="cl-red" x="704" y="446" text-anchor="end">Роз'єм API (частина на баку)</text>
+
+          <path class="cl-line" d="M215 425 112 425"/>
+          <circle class="cl-dot-red" cx="215" cy="425" r="4"/>
+          <text class="cl-red" x="16" y="404">Композитний<tspan x="16" dy="28">рукав</tspan></text>
+        </g>
       </svg>
 
-      <div class="fig-legend" aria-hidden="true">
-        <span><i class="sw-line"></i>Цистерна</span>
-        <span><i class="sw-wire"></i>Клапани та люки</span>
-        <span><i class="sw-film2"></i>Роз'єми API і рукав</span>
-      </div>
     </div>
   </div>
 </section>
