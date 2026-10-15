@@ -68,7 +68,10 @@
   function formatPhone(value){
     var digits = value.replace(/\D/g,'');
     if(digits.indexOf('380') === 0){ digits = digits.slice(3); }
-    else if(digits.indexOf('0') === 0){ digits = digits.slice(1); }
+    // a full +380 number typed or pasted over the prefill repeats the country code
+    if(digits.length > 9 && digits.indexOf('380') === 0){ digits = digits.slice(3); }
+    // the field is prefilled with +380, so people still type the local 0 (050...)
+    if(digits.indexOf('0') === 0){ digits = digits.slice(1); }
     digits = digits.slice(0,9);
     var out = '+380';
     if(digits.length) out += ' ' + digits.slice(0,2);
@@ -116,7 +119,7 @@
     e.preventDefault();
 
     // silently drop bot submissions caught by the honeypot
-    if(d.getElementById('f-company-url').value) return;
+    if(d.getElementById('f-hpx').value){ dl({event:'form_honeypot'}); return; }
 
     var invalid = validate();
     if(invalid){ invalid.focus(); dl({event:'form_error'}); return; }
