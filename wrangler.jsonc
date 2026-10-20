@@ -12,11 +12,18 @@
     "run_worker_first": ["/api/*"]
   },
 
+  // Declared here so deploys keep the domain attached. tubes-international.online
+  // is on registry serverHold (Radix) since 2026-10-05; workers.dev stays on as a fallback.
+  "routes": [
+    { "pattern": "oil-hose.tubes-international.com.ua", "custom_domain": true }
+  ],
+  "workers_dev": true,
+
   // Plain-text config lives here: every deploy replaces the Worker's vars with this
   // block, so values set only in the dashboard are wiped on the next push.
   // RESEND_API_KEY stays a dashboard secret (secrets survive deploys).
   "vars": {
-    // Must be on a domain verified in Resend (tubes-international.online).
+    // Must be on a domain verified in Resend. Switch to lead@tubes-international.com.ua once Resend verifies it.
     "MAIL_FROM": "Заявки з сайту <lead@tubes-international.online>",
     // Test mode: every lead goes here instead of the city branch.
     // Remove to restore branch routing (lviv@ / kyiv@ / dnipro@).

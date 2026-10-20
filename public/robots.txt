@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://oil-hose.tubes-international.online/sitemap.xml
+Sitemap: https://oil-hose.tubes-international.com.ua/sitemap.xml
