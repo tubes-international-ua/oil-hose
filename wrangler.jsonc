@@ -23,8 +23,8 @@
   // block, so values set only in the dashboard are wiped on the next push.
   // RESEND_API_KEY stays a dashboard secret (secrets survive deploys).
   "vars": {
-    // Must be on a domain verified in Resend. Switch to lead@tubes-international.com.ua once Resend verifies it.
-    "MAIL_FROM": "Заявки з сайту <lead@tubes-international.online>",
+    // Must be on a domain verified in Resend (tubes-international.com.ua).
+    "MAIL_FROM": "Заявки з сайту <lead@tubes-international.com.ua>",
     // Test mode: every lead goes here instead of the city branch.
     // Remove to restore branch routing (lviv@ / kyiv@ / dnipro@).
     "MAIL_TO": "tubes.marketing.ua@gmail.com"
