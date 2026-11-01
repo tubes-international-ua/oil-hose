@@ -50,10 +50,17 @@
 
 .crumbs--light {
   margin-bottom: 28px;
-  color: var(--muted-2);
+  color: var(--muted);
+  font-size: 15px;
 }
 .crumbs--light a {
-  color: var(--muted);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.pdp .tag {
+  display: inline-block;
+  margin-bottom: 18px;
 }
 
 .section--pdp {
