@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Харчові шланги | Tubes International</title>
+    <meta name="description" content="Шланги для харчових продуктів і напоїв: характеристики, варіанти та запит ціни.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <script src="/js/gtm.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/food.css">
+    <script defer src="/js/food-products.js"></script>
+    <script defer src="/js/food-product.js"></script>
+    <script defer src="/js/food.js"></script>
+</head>
+<body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5D7K38NV" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <div class="container">
+        <header class="nav">
+            <div class="logo"><a href="/"><img src="/img/logo.png" alt="Tubes International"></a></div>
+            <nav class="menu">
+                <a href="/">Головна</a>
+                <a class="active" href="/catalog">Товари</a>
+                <a href="https://www.tubes-international.ua/kompania/pro-nas/" target="_blank" rel="noopener">Про нас</a>
+                <a href="#request">Контакти</a>
+            </nav>
+            <div class="contacts">
+                <img src="/img/icon-marker.png" alt="">
+                <a href="https://www.tubes-international.ua/kontakty/" target="_blank" rel="noopener">Торгова мережа</a>
+                <img src="/img/icon-phone.png" alt="">
+                <a href="tel:+380322459341">+380 32 245 93 41</a>
+            </div>
+        </header>
+
+        <div class="breadcrumbs">
+            <a href="/">Головна</a> / <a href="/catalog">Харчова промисловість</a> / <span data-field="model">Товар</span>
+        </div>
+
+        <!-- Filled by js/food-product.js from window.FOOD_PRODUCTS using ?p=<slug> -->
+        <section class="pdp" hidden>
+            <div class="pdp__photo"><img data-field="photo" src="" alt=""></div>
+            <div class="pdp__summary">
+                <div class="product__cat" data-field="material"></div>
+                <h1 class="pdp__title" data-field="name"></h1>
+                <p class="pdp__lead" data-field="lead"></p>
+                <div class="product__tags" data-field="tags"></div>
+                <h3 class="pdp__subtitle">Додаткова інформація</h3>
+                <table class="attr-table"><tbody data-field="attrs"></tbody></table>
+                <div class="pdp__actions">
+                    <a class="btn" href="#request" data-field="ask">Запитати ціну <img src="/img/arrow.png" alt=""></a>
+                    <a class="btn btn_outline" href="#variants">Варіанти</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section pdp-section" hidden>
+            <h3 class="section-title">Опис</h3>
+            <div class="pdp__desc">
+                <p data-field="body"></p>
+                <div class="pdp__norms">
+                    <h4>Норми та вимоги</h4>
+                    <p data-field="norms"></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section pdp-section" id="variants" hidden>
+            <h3 class="section-title">Список варіантів продукту</h3>
+            <div class="table-wrap">
+                <table class="sim-table variants">
+                    <thead><tr><th>Артикул</th><th>Назва варіанта продукту</th><th>DN</th><th>BAR</th><th>Каталог</th><th>Дії</th></tr></thead>
+                    <tbody data-field="rows"></tbody>
+                </table>
+            </div>
+            <p class="section-note">DN — номінальний внутрішній діаметр [мм]; BAR — максимальний робочий тиск [бар]. Ціни та наявність уточнюйте у менеджера.</p>
+        </section>
+
+        <section class="section pdp-section" hidden>
+            <div class="help-banner">
+                <p>Вам потрібна більша партія продукції або індивідуальна пропозиція?</p>
+                <a href="tel:+380322459341">+380 32 245 93 41</a>
+                <a class="btn btn_small" href="#request">Надіслати запит</a>
+            </div>
+        </section>
+
+        <section class="section pdp-section" hidden>
+            <h3 class="section-title">Пов'язані продукти</h3>
+            <div class="products" data-field="related"></div>
+        </section>
+
+        <section class="section pdp-missing" hidden>
+            <h1>Товар не знайдено</h1>
+            <p>Перейдіть до каталогу, щоб обрати шланг.</p>
+            <a class="btn" href="/catalog">Каталог товарів</a>
+        </section>
+
+        <section class="section" id="request">
+            <div class="request">
+                <div>
+                    <h3>Потрібна допомога при підборі товару?</h3>
+                    <p>Не можете знайти потрібний товар? Телефонуйте або пишіть нам.</p>
+                    <a class="request__phone" href="tel:+380322459341">+380 32 245 93 41</a>
+                    <a class="request__phone" href="tel:+380503709392">050 370 93 92</a>
+                    <a class="request__mail" href="mailto:lviv@tubes-international.com">lviv@tubes-international.com</a>
+                </div>
+                <form class="form" id="lead-form" data-form-name="food_hoses_landing" novalidate>
+                    <div class="form__row">
+                        <div class="field">
+                            <input type="text" id="f-name" name="name" autocomplete="name" placeholder="Ваше ім'я *" required>
+                            <span class="field__error" data-error-for="f-name">Вкажіть, будь ласка, ваше ім'я</span>
+                        </div>
+                        <div class="field">
+                            <input type="text" id="f-city" name="city" autocomplete="address-level2" placeholder="Місто *" required>
+                            <span class="field__error" data-error-for="f-city">Вкажіть місто</span>
+                        </div>
+                    </div>
+                    <div class="form__row">
+                        <div class="field">
+                            <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="Телефон *" required>
+                            <span class="field__error" data-error-for="f-phone">Формат: +380 XX XXX XX XX</span>
+                        </div>
+                        <div class="field">
+                            <input type="email" id="f-email" name="email" autocomplete="email" placeholder="Email *" required>
+                            <span class="field__error" data-error-for="f-email">Вкажіть коректну адресу</span>
+                        </div>
+                    </div>
+                    <textarea id="f-msg" name="message" placeholder="Артикул, діаметр, довжина, кількість..."></textarea>
+                    <!-- Honeypot: hidden from users, filled only by bots -->
+                    <div class="hp" aria-hidden="true">
+                        <label for="f-hpx">Не заповнюйте це поле</label>
+                        <input type="text" id="f-hpx" name="hpx" tabindex="-1" autocomplete="off">
+                    </div>
+                    <label class="form__consent">
+                        <input type="checkbox" id="f-consent" name="consent" required>
+                        <span>Даю згоду на обробку персональних даних згідно з <a href="/privacy" target="_blank" rel="noopener">політикою конфіденційності</a> *</span>
+                    </label>
+                    <span class="field__error" data-error-for="f-consent">Без згоди ми не можемо опрацювати заявку</span>
+                    <button class="btn" type="submit" id="submit-btn">Надіслати заявку</button>
+                    <div class="form__success" role="status" aria-live="polite">Дякуємо! Заявку прийнято, менеджер зв'яжеться з вами найближчим часом.</div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span>© Tubes International — шланги та з'єднання для промисловості</span>
+            <nav class="menu">
+                <a href="/">Головна</a>
+                <a href="/catalog">Харчова промисловість</a>
+                <a href="#request">Контакти</a>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

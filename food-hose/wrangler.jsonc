@@ -1,0 +1,29 @@
+{
+  "name": "food-hose",
+  // Same Worker code as the composite-hose landing: static assets + POST /api/lead
+  "main": "../src/index.js",
+  "compatibility_date": "2026-09-10",
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "routes": [
+    { "pattern": "food-hose.tubes-international.com.ua", "custom_domain": true }
+  ],
+  "workers_dev": true,
+
+  // Every deploy replaces vars with this block. RESEND_API_KEY is a dashboard secret.
+  "vars": {
+    "MAIL_FROM": "Заявки з сайту <lead@tubes-international.com.ua>",
+    // Test mode: every lead goes here instead of the city branch.
+    // Remove to restore branch routing (lviv@ / kyiv@ / dnipro@).
+    "MAIL_TO": "tubes.marketing.ua@gmail.com"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

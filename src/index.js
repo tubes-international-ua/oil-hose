@@ -36,6 +36,7 @@ const REGIONS = {
 const FORM_TOPICS = {
   composite_hoses_landing: 'композитні рукави',
   tanker_equipment: 'комплектуючі для автоцистерн',
+  food_hoses_landing: 'харчові шланги',
 };
 
 const DEFAULT_TOPIC = FORM_TOPICS.composite_hoses_landing;
