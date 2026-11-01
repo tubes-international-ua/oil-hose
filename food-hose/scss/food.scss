@@ -60,6 +60,20 @@
     }
 }
 
+// Product page: crumbs sit on white right above the product, no dark heading
+.crumbs--light {
+    margin-bottom: 28px;
+    color: var(--muted-2);
+
+    a {
+        color: var(--muted);
+    }
+}
+
+.section--pdp {
+    padding-top: clamp(28px, 4vw, 44px);
+}
+
 // Hose photo in the hero: transparent PNG/WebP on the dark background
 .hero__photo {
     position: relative;

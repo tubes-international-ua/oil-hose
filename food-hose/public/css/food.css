@@ -48,6 +48,18 @@
   margin: 0 8px;
 }
 
+.crumbs--light {
+  margin-bottom: 28px;
+  color: var(--muted-2);
+}
+.crumbs--light a {
+  color: var(--muted);
+}
+
+.section--pdp {
+  padding-top: clamp(28px, 4vw, 44px);
+}
+
 .hero__photo {
   position: relative;
 }
