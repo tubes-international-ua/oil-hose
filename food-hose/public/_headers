@@ -1,7 +1,10 @@
-/images/*
+/img/*
   Cache-Control: public, max-age=31536000, immutable
 
-/assets/*
+/css/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/js/*
   Cache-Control: public, max-age=3600, must-revalidate
 
 /*
