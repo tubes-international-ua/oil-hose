@@ -12,7 +12,10 @@
 | `/product?p=<slug>` | `public/product.html` — сторінка товару, дані в `public/js/food-products.js` |
 | `/privacy` | `public/privacy.html` |
 
-Стилі: правити `scss/food.scss`, потім `npx sass --no-source-map scss/food.scss public/css/food.css`.
+Дизайн той самий, що в лендінгу композитних рукавів: `public/css/styles.css` — копія
+`../public/assets/css/styles.css` (не правити тут; після змін там — скопіювати заново).
+Специфічне для харчового сайту (каталог, фільтри, картки товарів, сторінка товару) — у `scss/food.scss`,
+потім `npx sass --no-source-map scss/food.scss public/css/food.css`.
 
 ## Публікація (один раз)
 1. **Workers & Pages → Create → Import a repository** → `tubes-international-ua/oil-hose`.

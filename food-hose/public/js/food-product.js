@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
   field('name').textContent = product.name;
   field('lead').textContent = product.lead;
   field('material').textContent = material.split(' – ').pop();
+  if (!material) field('material').hidden = true;
   field('tags').appendChild(tags(product.cats));
   field('photo').src = '/img/food/products/large/' + slug + '.webp';
   field('photo').alt = product.name;
@@ -78,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     tr.appendChild(pdf);
     var action = el('td');
-    var ask = el('a', 'btn btn_small btn_outline', 'Запит');
-    ask.href = '#request';
+    var ask = el('a', 'btn btn--outline-dark btn--sm', 'Запит');
+    ask.href = '#zapyt';
     ask.dataset.product = product.model + ', артикул ' + row[0] + ' (' + row[1] + ')';
     action.appendChild(ask);
     tr.appendChild(action);
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var p = data[item.key];
       var url = '/product?p=' + item.key;
       var card = el('article', 'product');
-      var img = el('a', 'product__img product__img_photo');
+      var img = el('a', 'product__img');
       img.href = url;
       var pic = el('img');
       pic.src = '/img/food/products/' + item.key + '.webp';
@@ -117,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var tagBox = el('div', 'product__tags');
       tagBox.appendChild(tags(p.cats));
       body.appendChild(tagBox);
-      var more = el('a', 'btn btn_small btn_outline', 'Детальніше');
+      var more = el('a', 'btn btn--outline-dark btn--sm', 'Детальніше');
       more.href = url;
       body.appendChild(more);
       card.appendChild(img);
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
       field('related').appendChild(card);
     });
 
-  document.querySelectorAll('.pdp, .pdp-section').forEach(function (node) {
+  document.querySelectorAll('.pdp-section').forEach(function (node) {
     node.hidden = false;
   });
 });

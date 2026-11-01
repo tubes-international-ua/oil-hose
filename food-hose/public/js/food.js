@@ -2,6 +2,25 @@ document.addEventListener('DOMContentLoaded', function () {
   // Conversion events for GTM, same names as on the main LP
   window.dataLayer = window.dataLayer || [];
 
+  var year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+
+  // Mobile nav, same behaviour as the composite-hose landing
+  var burger = document.getElementById('burger');
+  var mobnav = document.getElementById('mobnav');
+  if (burger && mobnav) {
+    burger.addEventListener('click', function () {
+      var open = mobnav.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    mobnav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        mobnav.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   // Lead form: same contract as the composite-hose landing (POST /api/lead, see src/index.js)
   var form = document.getElementById('lead-form');
   if (form) initLeadForm(form);
@@ -66,6 +85,8 @@ function initLeadForm(form) {
   var phone = d.getElementById('f-phone');
   var consent = d.getElementById('f-consent');
   var submitBtn = d.getElementById('submit-btn');
+  var formWrap = d.getElementById('form-wrap');
+  var success = d.getElementById('form-success');
   var dl = function (o) { window.dataLayer.push(o); };
 
   // Phone input: normalize to +380 XX XXX XX XX
@@ -153,7 +174,9 @@ function initLeadForm(form) {
 
     function done() {
       dl({ event: 'generate_lead', form_name: formName, lead_city: data.city, value: 1, currency: 'UAH' });
-      form.classList.add('form_sent');
+      formWrap.style.display = 'none';
+      success.classList.add('is-visible');
+      if (success.scrollIntoView) success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     function fail() {
       submitBtn.disabled = false;
