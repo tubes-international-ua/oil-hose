@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     tr.appendChild(pdf);
     var action = el('td');
     var ask = el('a', 'btn btn--outline-dark btn--sm', 'Запит');
-    ask.href = '#zapyt';
+    ask.href = '#request';
     ask.dataset.product = product.model + ', артикул ' + row[0] + ' (' + row[1] + ')';
     action.appendChild(ask);
     tr.appendChild(action);
