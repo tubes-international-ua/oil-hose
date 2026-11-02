@@ -38,6 +38,12 @@ document.addEventListener('DOMContentLoaded', function () {
   document.title = heading + ' | Tubes International';
   document.querySelector('meta[name="description"]').setAttribute('content', product.lead);
 
+  // Canonical keeps only ?p=, so utm/gclid variants of the same product collapse into one URL
+  var canonical = document.createElement('link');
+  canonical.rel = 'canonical';
+  canonical.href = 'https://food-hose.tubes-international.com.ua/product?p=' + encodeURIComponent(slug);
+  document.head.appendChild(canonical);
+
   field('model').textContent = product.model;
   field('name').textContent = product.name;
   field('lead').textContent = product.lead;
