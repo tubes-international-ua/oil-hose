@@ -82,21 +82,28 @@
     padding-top: clamp(28px, 4vw, 44px);
 }
 
-// Plant photo in the hero: framed, cropped to a slightly taller box than the 3:2 original
-.hero__photo {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--r-lg);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-
+// Plant photo as the hero background instead of the glow + grid; darkened so the white text stays readable
+.hero__bg--photo {
     img {
-        display: block;
         width: 100%;
-        height: auto;
-        aspect-ratio: 4 / 3;
+        height: 100%;
         object-fit: cover;
-        object-position: 65% 50%;
+        object-position: 70% 50%;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, rgba(10, 12, 15, 0.94) 0%, rgba(10, 12, 15, 0.82) 45%, rgba(10, 12, 15, 0.55) 100%),
+            linear-gradient(0deg, rgba(10, 12, 15, 0.6) 0%, transparent 40%);
+    }
+}
+
+@media (max-width: 980px) {
+    .hero__bg--photo::after {
+        background: rgba(10, 12, 15, 0.84);
     }
 }
 
