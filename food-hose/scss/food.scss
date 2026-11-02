@@ -82,8 +82,12 @@
     padding-top: clamp(28px, 4vw, 44px);
 }
 
-// Plant photo as the hero background instead of the glow + grid; darkened so the white text stays readable
+// Plant photo as the hero background, darkened so the white text stays readable; the red glow sits on top
 .hero__bg--photo {
+    .hero__glow {
+        z-index: 1;
+    }
+
     img {
         width: 100%;
         height: 100%;
