@@ -67,18 +67,20 @@
   padding-top: clamp(28px, 4vw, 44px);
 }
 
-.steps::before {
-  left: 24px;
-  right: calc(25% - 42px);
-}
-
 .hero__photo {
   position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-lg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 }
 .hero__photo img {
+  display: block;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  object-position: 65% 50%;
 }
 
 .tcard--photo {

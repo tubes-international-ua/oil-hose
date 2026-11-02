@@ -82,21 +82,21 @@
     padding-top: clamp(28px, 4vw, 44px);
 }
 
-// Steps line: from the centre of the first circle to the centre of the last one.
-// Circles sit at the left of each of 4 columns (gap 24px), so the last centre is at 75% + 42px.
-.steps::before {
-    left: 24px;
-    right: calc(25% - 42px);
-}
-
-// Hose photo in the hero: transparent PNG/WebP on the dark background
+// Plant photo in the hero: framed, cropped to a slightly taller box than the 3:2 original
 .hero__photo {
     position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--r-lg);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 
     img {
+        display: block;
         width: 100%;
         height: auto;
-        filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        object-position: 65% 50%;
     }
 }
 
