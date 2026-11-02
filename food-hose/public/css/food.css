@@ -379,6 +379,42 @@
   text-align: center;
 }
 
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+.pager button {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+}
+.pager button:hover:not(:disabled) {
+  border-color: var(--red);
+  color: var(--red);
+}
+.pager button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pager .active,
+.pager .active:hover:not(:disabled) {
+  border-color: var(--red);
+  background: var(--red);
+  color: #FFFFFF;
+}
+
 .pdp {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -568,6 +604,14 @@ body:has(.modal[open]) {
   }
   .product__actions {
     grid-template-columns: 1fr;
+  }
+  .pager {
+    gap: 6px;
+  }
+  .pager button {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
   }
   .help-banner {
     padding: 24px 20px;

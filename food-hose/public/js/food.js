@@ -44,40 +44,91 @@ document.addEventListener('DOMContentLoaded', function () {
   var filters = document.querySelectorAll('.filters button');
   var products = document.querySelectorAll('.product');
   var emptyResult = document.querySelector('.empty-result');
+  var pager = document.querySelector('.pager');
+  var list = document.querySelector('.products');
   if (!filters.length) return;
 
-  // Show only products whose data-category list contains the selected filter
-  function applyFilter(category) {
-    var visible = 0;
+  // 4 rows of 3 cards on desktop
+  var PAGE_SIZE = 12;
+  var category = 'all';
+
+  // Filter state lives in the hash (/catalog#milk), the page in ?page=2; other query params (utm, gclid) are kept
+  function updateUrl(page) {
+    var params = new URLSearchParams(location.search);
+    if (page > 1) params.set('page', page); else params.delete('page');
+    var query = params.toString();
+    history.replaceState(null, '', location.pathname + (query ? '?' + query : '') + (category === 'all' ? '' : '#' + category));
+  }
+
+  // Show only products whose data-category list contains the selected filter, PAGE_SIZE at a time
+  function render(page) {
     filters.forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.filter === category);
     });
-    products.forEach(function (product) {
-      var match = category === 'all' || product.dataset.category.split(' ').indexOf(category) !== -1;
-      product.hidden = !match;
-      if (match) visible++;
+    var matches = Array.prototype.filter.call(products, function (product) {
+      return category === 'all' || product.dataset.category.split(' ').indexOf(category) !== -1;
     });
-    emptyResult.style.display = visible ? 'none' : 'block';
+    var pages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
+    page = Math.min(Math.max(1, page || 1), pages);
+
+    products.forEach(function (product) { product.hidden = true; });
+    matches.forEach(function (product, i) {
+      product.hidden = Math.floor(i / PAGE_SIZE) !== page - 1;
+    });
+    emptyResult.style.display = matches.length ? 'none' : 'block';
+    if (pager) renderPager(page, pages);
+    return page;
+  }
+
+  function renderPager(page, pages) {
+    pager.hidden = pages < 2;
+    if (pages < 2) { pager.innerHTML = ''; return; }
+    var html = '<button type="button" data-page="' + (page - 1) + '"' + (page === 1 ? ' disabled' : '') + ' aria-label="Попередня сторінка">&larr;</button>';
+    for (var n = 1; n <= pages; n++) {
+      html += '<button type="button" data-page="' + n + '"' + (n === page ? ' class="active" aria-current="page"' : '') + '>' + n + '</button>';
+    }
+    html += '<button type="button" data-page="' + (page + 1) + '"' + (page === pages ? ' disabled' : '') + ' aria-label="Наступна сторінка">&rarr;</button>';
+    pager.innerHTML = html;
+  }
+
+  function show(page) {
+    updateUrl(render(page));
   }
 
   filters.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      history.replaceState(null, '', location.pathname + location.search + (btn.dataset.filter === 'all' ? '' : '#' + btn.dataset.filter));
-      applyFilter(btn.dataset.filter);
+      category = btn.dataset.filter;
+      show(1);
     });
   });
 
+  if (pager) {
+    pager.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-page]');
+      if (!btn || btn.disabled) return;
+      show(+btn.dataset.page);
+      // Back to the top of the list, below the sticky header
+      var header = document.querySelector('.header');
+      var top = list.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) - 24;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  }
+
   // Allow deep links like /catalog#milk from the landing page
-  function filterFromHash() {
+  function categoryFromHash() {
     var hash = location.hash.slice(1);
     var exists = Array.prototype.some.call(filters, function (btn) {
       return btn.dataset.filter === hash;
     });
-    applyFilter(exists ? hash : 'all');
+    return exists ? hash : 'all';
   }
 
-  window.addEventListener('hashchange', filterFromHash);
-  filterFromHash();
+  window.addEventListener('hashchange', function () {
+    category = categoryFromHash();
+    show(1);
+  });
+  category = categoryFromHash();
+  show(+new URLSearchParams(location.search).get('page') || 1);
 });
 
 // Moves the page's only .formcard into a <dialog> and back on close, so ids and handlers stay as they are
