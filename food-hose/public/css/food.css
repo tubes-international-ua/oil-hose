@@ -503,6 +503,53 @@
   text-align: center;
 }
 
+.modal {
+  position: fixed;
+  width: min(600px, 100% - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 0;
+  border-radius: var(--r-lg);
+  background: transparent;
+  overscroll-behavior: contain;
+}
+.modal::backdrop {
+  background: rgba(10, 12, 15, 0.72);
+  backdrop-filter: blur(2px);
+}
+.modal .formcard {
+  box-shadow: none;
+}
+.modal .formcard h3 {
+  padding-right: 40px;
+}
+
+.modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  color: var(--ink);
+  cursor: pointer;
+}
+.modal__close:hover {
+  color: var(--red);
+}
+
+body:has(.modal[open]) {
+  overflow: hidden;
+}
+
 @media (max-width: 980px) {
   .split,
   .pdp {

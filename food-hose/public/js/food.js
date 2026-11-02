@@ -32,11 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
       window.dataLayer.push({ event: 'phone_click', phone_number: tel.getAttribute('href').slice(4) });
     }
 
-    // "Ask price" buttons prefill the request form with the product name
+    // "Ask price" buttons prefill the request form with the product name and open it in a modal
     var btn = e.target.closest('[data-product]');
     var message = document.getElementById('f-msg');
     if (btn && message) {
       message.value = 'Цікавить: ' + btn.dataset.product;
+      if (openFormModal()) e.preventDefault();
     }
   });
 
@@ -78,6 +79,39 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('hashchange', filterFromHash);
   filterFromHash();
 });
+
+// Moves the page's only .formcard into a <dialog> and back on close, so ids and handlers stay as they are
+var formModal;
+function openFormModal() {
+  var card = document.querySelector('.formcard');
+  if (!card || typeof HTMLDialogElement !== 'function') return false;
+
+  if (!formModal) {
+    var slot = document.createComment('formcard');
+    card.parentNode.insertBefore(slot, card);
+
+    formModal = document.createElement('dialog');
+    formModal.className = 'modal';
+    formModal.setAttribute('aria-label', 'Запитати ціну');
+    formModal.innerHTML = '<button type="button" class="modal__close" aria-label="Закрити">' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>';
+    document.body.appendChild(formModal);
+
+    formModal.querySelector('.modal__close').addEventListener('click', function () { formModal.close(); });
+    // Click on the backdrop (outside the card) closes the modal
+    formModal.addEventListener('click', function (e) { if (e.target === formModal) formModal.close(); });
+    formModal.addEventListener('close', function () { slot.parentNode.insertBefore(card, slot.nextSibling); });
+  }
+
+  if (!formModal.open) {
+    formModal.appendChild(card);
+    formModal.showModal();
+  }
+  var name = document.getElementById('f-name');
+  if (name && document.getElementById('form-wrap').style.display !== 'none') name.focus();
+  window.dataLayer.push({ event: 'form_open', form_name: document.getElementById('lead-form').getAttribute('data-form-name') });
+  return true;
+}
 
 function initLeadForm(form) {
   var d = document;
