@@ -82,6 +82,13 @@
     padding-top: clamp(28px, 4vw, 44px);
 }
 
+// Steps line: from the centre of the first circle to the centre of the last one.
+// Circles sit at the left of each of 4 columns (gap 24px), so the last centre is at 75% + 42px.
+.steps::before {
+    left: 24px;
+    right: calc(25% - 42px);
+}
+
 // Hose photo in the hero: transparent PNG/WebP on the dark background
 .hero__photo {
     position: relative;
